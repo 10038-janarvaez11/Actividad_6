@@ -1,0 +1,25 @@
+
+/* Estilos CSS */
+body {
+    background: linear-gradient(to bottom right, #ffcc66, #ff6666); /* Fondo degradado */
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+#data-container {
+background: linear-gradient(to bottom right, #66deff, #ff6666); /* Fondo degradado */
+font-family: Arial, sans-serif;
+  border: 8px solid #000;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+#error-message {
+  color: red;
+  font-weight: bold;
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Componente Web con Fetch API</title>
+  <link rel="stylesheet" href="./css/estilos.css">
+
+</head>
+<body>
+
+<!-- Contenedor del componente -->
+<div id="data-container">
+  <h1>Datos Meteorológicos desde OpenWeatherMap</h1>
+  <div id="data-content"></div>
+  <div id="error-message"></div>
+</div>
+
+<!-- Script de Javascript -->
+<script>
+  // Función para obtener datos desde la API de OpenWeatherMap
+  async function fetchData() {
+    const apiKey = 'b79017d1ba9f9125e87bea7a0fb17735';  //  Clave de API de OpenWeatherMap
+    const city = 'Quito'; // Ciudad según tu preferencia
+
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+    try {
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error('Error al obtener datos');
+      }
+
+      const data = await response.json();
+      displayData(data);
+    } catch (error) {
+      displayError(error.message);
+    }
+  }
+
+  // Función para mostrar datos en el componente
+  function displayData(data) {
+    const dataContent = document.getElementById('data-content');
+    dataContent.innerHTML = `
+      <p><strong>Ciudad:</strong> ${data.name}</p>
+      <p><strong>Temperatura:</strong> ${data.main.temp}°C</p>
+      <p><strong>Humedad:</strong> ${data.main.humidity}%</p>
+        <p><strong>Velocidad del viento:</strong> ${data.wind.speed} m/s</p>
+        <p><strong>Presión atmosférica:</strong> ${data.main.pressure} hPa</p>
+        <p><strong>Temperatura máxima:</strong> ${data.main.temp_max}°C</p>
+        <p><strong>Temperatura mínima:</strong> ${data.main.temp_min}°C</p>
+        <p><strong>Latitud:</strong> ${data.coord.lat}</p>
+        <p><strong>Longitud:</strong> ${data.coord.lon}</p>
+        <p><strong>Amanece a las:</strong> ${new Date(data.sys.sunrise * 1000).toLocaleTimeString()}</p>
+        <p><strong>Oscurece a las:</strong> ${new Date(data.sys.sunset * 1000).toLocaleTimeString()}</p>
+        <p><strong>Visibilidad:</strong> ${data.visibility} m</p>
+        <p><strong>Hora de la medida:</strong> ${new Date(data.dt * 1000).toLocaleTimeString()}</p>
+        <p><strong>Fecha de la medida:</strong> ${new Date(data.dt * 1000).toLocaleDateString()}</p>
+        <p><strong>Zona horaria:</strong> ${data.timezone}</p>
+        <p><strong>Código de país:</strong> ${data.sys.country}</p>
+    `;
+  }
+
+  // Función para mostrar errores en el componente
+  function displayError(message) {
+    const errorMessage = document.getElementById('error-message');
+    errorMessage.textContent = `Error: ${message}`;
+  }
+
+  // Llamar a la función para obtener datos al cargar la página
+  fetchData();
+</script>
+
+</body>
+</html>
